@@ -11,8 +11,8 @@
 ---
 
 ## 🔗 Live Demo
-- **ทดลองเล่นออนไลน์ได้ที่:** `[กำลัง Deploy บน Render]` *(นำลิงก์จาก Render มาวางที่นี่)*
-> 💡 *กรรมการสามารถคลิกเล่นได้ทันทีโดยไม่ต้องติดตั้งโปรแกรมหรือระบุ API Key เพิ่มเติม*
+- **ทดลองเล่นออนไลน์ได้ที่:** [https://lantern-text-adventure.onrender.com](https://lantern-text-adventure.onrender.com)
+> 💡 *สามารถเข้าเล่นได้ทันทีผ่านเว็บเบราว์เซอร์ รองรับทั้งบนคอมพิวเตอร์และมือถือ โดยไม่ต้องติดตั้งโปรแกรมหรือตั้งค่าใดๆ เพิ่มเติม*
 
 ---
 
@@ -46,7 +46,7 @@
 ### 2. ขั้นตอนการติดตั้ง
 ```sh
 # Clone repository
-git clone https://github.com/YOUR-USERNAME/lantern-text-adventure.git
+git clone https://github.com/BossX00/lantern-text-adventure.git
 cd lantern-text-adventure
 
 # ติดตั้ง dependencies
