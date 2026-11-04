@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="th">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#11110f">
+  <title>นครกระจกเงา — The Glass Spire</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">✦</span>
+        <div>
+          <div class="eyebrow">DECAPOLIS · THE GLASS SPIRE</div><strong>นครกระจกเงา</strong>
+        </div>
+      </div>
+      <div class="top-actions"><button class="summary-button" id="open-summary" type="button" title="สรุปเรื่อง"
+          aria-label="สรุปเรื่อง">▣ <span>สรุปเรื่อง</span></button><button class="guide-button" id="open-guide"
+          type="button" title="คู่มือโลก" aria-label="คู่มือโลก">▤ <span>คู่มือโลก</span></button><button
+          class="settings-button" id="open-settings" type="button" title="ตั้งค่า API">⚙ <span>ตั้งค่า
+            API</span></button><button class="new-game" id="new-game" type="button" title="เริ่มเรื่องใหม่">↻
+          <span>เริ่มใหม่</span></button></div>
+    </header>
+
+    <section class="intro" id="intro">
+      <div class="moon">☾</div>
+      <p class="eyebrow">TRUTH IS THE MOST DANGEROUS THING</p>
+      <h1>นครกระจกเงา<br><em>The Glass Spire</em></h1>
+      <p class="intro-copy">ใน Decapolis ความลับมีเงาเป็นของตัวเอง<br class="desktop-only">
+        และความจริงอาจพรากตัวตนของคุณไป</p>
+      <button id="begin" class="begin-button" type="button">เริ่มสืบคดี <span>→</span></button>
+      <div class="rule"><span></span> Fragment Auditor · เขต 7 <span></span></div>
+    </section>
+
+    <section class="game hidden" id="game">
+      <div class="scene-head">
+        <div>
+          <p class="eyebrow">CHAPTER I · DECAPOLIS / DISTRICT 7</p>
+          <h2>เงาที่แตกสลาย</h2>
+        </div><span class="location-icon">⌖</span>
+      </div>
+      <figure class="opening-art"><img src="/images/opening-scene.jpg"
+          alt="Fragment Auditor ในสำนักงานเขต 7 มองออกไปยังนครแก้ว ขณะสารวัตรทหารยืนอยู่หน้าประตู">
+        <figcaption>สถานีรถไฟลอยฟ้า เขต 7 · ก่อนการตรวจค้นจะเริ่มขึ้น</figcaption>
+      </figure>
+      <div class="character-panels">
+        <section class="state-card" aria-labelledby="inventory-title">
+          <div class="state-card-head"><span class="state-icon">▤</span>
+            <h3 id="inventory-title">กระเป๋า</h3>
+          </div>
+          <div class="state-content" id="inventory-state">
+            <p class="state-empty">รอ Game Master ระบุสิ่งของ</p>
+          </div>
+        </section>
+        <section class="state-card" aria-labelledby="status-title">
+          <div class="state-card-head"><span class="state-icon">◈</span>
+            <h3 id="status-title">สถานะตัวละคร</h3>
+          </div>
+          <div class="state-content" id="character-state">
+            <p class="state-empty">รอ Game Master ระบุสถานะ</p>
+          </div>
+        </section>
+      </div>
+      <div class="story" id="story" aria-live="polite"></div>
+      <div class="thinking hidden" id="thinking"><span></span><span></span><span></span><small>Game Master
+          กำลังเขียนเรื่องราว</small></div>
+    </section>
+
+    <form class="composer hidden" id="composer">
+      <label for="action">การกระทำของคุณ</label>
+      <div class="input-row"><textarea id="action" rows="1" maxlength="500" placeholder="พิมพ์สิ่งที่คุณอยากทำ…"
+          required></textarea><button id="send" type="submit" aria-label="ส่ง">↑</button></div>
+      <div class="composer-foot"><span>Enter เพื่อส่ง · Shift + Enter ขึ้นบรรทัดใหม่</span><span id="turn-count">เทิร์น
+          0</span></div>
+    </form>
+    <footer><span>✦</span> GAME MASTER POWERED BY GROQ</footer>
+  </main>
+  <div class="modal-backdrop hidden" id="settings-modal" role="presentation">
+    <section class="settings-card" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+      <button class="modal-close" id="close-settings" type="button" aria-label="ปิด">×</button>
+      <p class="eyebrow">CONNECTION</p>
+      <h2 id="settings-title">ตั้งค่า Groq API</h2>
+      <p class="settings-copy">ใส่ API key เพื่อให้ Game Master เริ่มเล่าเรื่อง คีย์จะบันทึกไว้ในไฟล์ .env
+        ที่ไม่ถูกรวมใน Git</p>
+      <form id="settings-form">
+        <label for="api-key">Groq API key</label>
+        <div class="key-input"><input id="api-key" type="password" autocomplete="off" placeholder="gsk_…"
+            required><button id="toggle-key" type="button">แสดง</button></div>
+        <div class="settings-status" id="settings-status" aria-live="polite"></div>
+        <button class="save-key" id="save-key" type="submit">บันทึกคีย์</button>
+      </form>
+      <div class="model-picker">
+        <div class="model-heading"><label for="model-select">โมเดลสำหรับ Game Master</label><button id="refresh-models"
+            type="button">↻ ดึงรายการ</button></div>
+        <select id="model-select" disabled>
+          <option value="">ใส่ API key แล้วดึงรายการโมเดล</option>
+        </select>
+        <div class="settings-status" id="model-status" aria-live="polite"></div>
+        <button class="save-key" id="save-model" type="button" disabled>ใช้โมเดลนี้</button>
+      </div>
+    </section>
+  </div>
+  <div class="modal-backdrop hidden" id="guide-modal" role="presentation">
+    <section class="guide-card" role="dialog" aria-modal="true" aria-labelledby="guide-title">
+      <button class="modal-close" id="close-guide" type="button" aria-label="ปิด">×</button>
+      <p class="eyebrow">FIELD GUIDE · DECAPOLIS</p>
+      <h2 id="guide-title">คู่มือผู้ตรวจสอบเศษเสี้ยว</h2>
+      <p class="guide-lead">แฟ้มอ้างอิงสำหรับ Fragment Auditor · ไม่มีการเปิดเผยความลับที่คุณยังจำไม่ได้</p>
+      <div class="guide-scroll">
+        <section class="guide-section">
+          <h3>โลกที่เหลืออยู่</h3>
+          <p>มนุษยชาติอาศัยอยู่ในมหานครเดคาโพลิส นครแก้วขนาดมหึมากลางโลกที่ถูกหมอกพิษและเถ้าถ่านปกคลุม เมืองพึ่งพา
+            <strong>กระจกแห่งจิตสำนึก (The Psyche-Glass)</strong>
+            ผลึกโบราณที่ดึงความลับและด้านมืดของผู้คนออกมาเป็นเงาที่มีตัวตน</p>
+        </section>
+        <section class="guide-section">
+          <h3>หน้าที่ของคุณ</h3>
+          <p>คุณคือ <strong>Fragment Auditor</strong> เจ้าหน้าที่ระดับล่างที่สืบสวนคดีผิดปกติทางจิตวิญญาณ
+            เงาสะท้อนเริ่มมีชีวิตและก่ออาชญากรรม ขณะเดียวกันคุณก็จำอดีตบางส่วนไม่ได้ และมีทั้งทางการกับองค์กรลับตามล่า
+          </p>
+        </section>
+        <section class="guide-section">
+          <h3>ค่าความโปร่งแสง</h3>
+          <p>การโกหก ใช้เล่ห์เหลี่ยม หรือปฏิเสธความจริงอาจทำให้ค่านี้เพิ่มขึ้นตามสถานการณ์ หากถึง <strong>100%</strong>
+            ตัวตนของคุณจะถูกลบเลือนและเกมจบ Game Master จะแสดงค่าปัจจุบันไว้ในแผงสถานะ</p>
+        </section>
+        <section class="guide-section">
+          <h3>ค่าเงาสะท้อน</h3>
+          <p>บอกระดับความเชื่อมโยงกับด้านมืดของคุณ ค่าที่สูงขึ้นอาจช่วยให้ใช้พลังพิเศษสืบคดี
+            แต่เพิ่มความเสี่ยงที่เงาจะหลุดออกมาควบคุมร่าง</p>
+        </section>
+        <section class="guide-section">
+          <h3>กระเป๋าและสถานะ</h3>
+          <p>Game Master จะอัปเดตสิ่งของที่คุณถือและสถานะตัวละครตามสิ่งที่เกิดขึ้น
+            ไม่มีรายการของหรือสภาพร่างกายที่กำหนดไว้ล่วงหน้า ความลับที่คุณยังไม่ค้นพบจะไม่แสดงในกระเป๋า</p>
+        </section>
+        <section class="guide-section">
+          <h3>วิธีเล่น</h3>
+          <p>พิมพ์การกระทำหรือบทสนทนาได้อย่างอิสระ เช่น ตรวจแฟ้มคดี คุยกับสารวัตรทหาร หรือสำรวจเงาบนผนัง
+            ไม่จำเป็นต้องเลือกจากตัวเลือกที่ Game Master เสนอ
+            ทุกการตัดสินใจอาจเปลี่ยนคดีและความสัมพันธ์ของคุณกับความจริง</p>
+        </section>
+        <div class="guide-note">คดีแรก: เหยื่อถูกพบในห้องล็อกจากด้านใน ไม่มีบาดแผล มีเพียงเงาสะท้อนที่แตกสลายบนผนัง
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="modal-backdrop hidden" id="summary-modal" role="presentation">
+    <section class="guide-card summary-card" role="dialog" aria-modal="true" aria-labelledby="summary-title">
+      <button class="modal-close" id="close-summary" type="button" aria-label="ปิด">×</button>
+      <p class="eyebrow">CASE LOG · STORY RECAP</p>
+      <h2 id="summary-title">สรุปเรื่องราว</h2>
+      <p class="guide-lead" id="summary-updated">สรุปจะอัปเดตหลัง Game Master ตอบแต่ละครั้ง</p>
+      <div class="guide-scroll">
+        <section class="guide-section">
+          <h3>ตั้งแต่เริ่มเรื่อง</h3>
+          <p id="summary-story">ยังไม่มีเหตุการณ์ให้สรุป</p>
+        </section>
+        <section class="guide-section">
+          <h3>ตอนนี้กำลังทำอะไร</h3>
+          <p id="summary-objective">รอเริ่มการสืบสวน</p>
+        </section>
+        <section class="guide-section">
+          <h3>สิ่งที่เปลี่ยนล่าสุด</h3>
+          <ul class="summary-changes" id="summary-changes">
+            <li>ยังไม่มีข้อมูล</li>
+          </ul>
+        </section>
+      </div>
+    </section>
+  </div>
+  <script src="/app.js" defer></script>
+</body>
+
+</html>
