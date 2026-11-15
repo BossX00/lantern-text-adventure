@@ -9,6 +9,7 @@ const action = $('#action');
 const send = $('#send');
 const thinking = $('#thinking');
 const charCount = $('#char-count');
+const quickChips = $('#quick-chips');
 const apiBadge = $('#api-badge');
 const liveObjective = $('#live-objective');
 
@@ -372,6 +373,53 @@ function applyGameMasterReply(rawReply) {
     }
   }
   renderSummary(data.summary);
+  renderQuickChips(data.choices);
+}
+
+function bindChipClick(chip) {
+  chip.addEventListener('click', () => {
+    if (action.disabled || gameOver) return;
+    action.value = chip.dataset.prompt || chip.textContent || '';
+    action.style.height = 'auto';
+    action.style.height = `${Math.min(action.scrollHeight, 130)}px`;
+    if (charCount) charCount.textContent = `${action.value.length} / 500`;
+    action.focus();
+  });
+}
+
+function renderQuickChips(choices) {
+  if (!quickChips) return;
+  if (gameOver) {
+    quickChips.replaceChildren();
+    quickChips.classList.add('hidden');
+    return;
+  }
+  if (!Array.isArray(choices) || !choices.length) return;
+
+  const buttons = [];
+  for (const choice of choices.slice(0, 4)) {
+    let label = '';
+    let prompt = '';
+    if (typeof choice === 'string') {
+      label = choice.trim();
+      prompt = label;
+    } else if (choice && typeof choice === 'object') {
+      label = String(choice.label || choice.text || choice.action || choice.prompt || '').trim();
+      prompt = String(choice.action || choice.prompt || choice.text || label).trim();
+    }
+    if (!label || !prompt) continue;
+    const chip = document.createElement('button');
+    chip.type = 'button';
+    chip.className = 'quick-chip';
+    chip.dataset.prompt = prompt;
+    chip.textContent = label;
+    bindChipClick(chip);
+    buttons.push(chip);
+  }
+
+  if (!buttons.length) return;
+  quickChips.replaceChildren(...buttons);
+  quickChips.classList.remove('hidden');
 }
 
 async function takeTurn(text, { displayPlayer = true, includeInHistory = true } = {}) {
@@ -414,14 +462,7 @@ $('#begin').addEventListener('click', () => {
 });
 
 for (const chip of $$('.quick-chip')) {
-  chip.addEventListener('click', () => {
-    if (action.disabled || gameOver) return;
-    action.value = chip.dataset.prompt || chip.textContent || '';
-    action.style.height = 'auto';
-    action.style.height = `${Math.min(action.scrollHeight, 130)}px`;
-    if (charCount) charCount.textContent = `${action.value.length} / 500`;
-    action.focus();
-  });
+  bindChipClick(chip);
 }
 
 composer.addEventListener('submit', (event) => {
