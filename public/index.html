@@ -4,97 +4,290 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#11110f">
+  <meta name="theme-color" content="#070b12">
   <title>นครกระจกเงา — The Glass Spire</title>
   <link rel="stylesheet" href="/style.css">
 </head>
 
 <body>
-  <main class="shell">
+  <div class="shell">
     <header class="topbar">
-      <div class="brand"><span class="brand-mark">✦</span>
-        <div>
-          <div class="eyebrow">DECAPOLIS · THE GLASS SPIRE</div><strong>นครกระจกเงา</strong>
+      <div class="topbar-inner">
+        <div class="brand">
+          <div class="brand-emblem" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9L12 2Z" />
+            </svg>
+          </div>
+          <div class="brand-text">
+            <div class="eyebrow">DECAPOLIS // PSYCHE-GLASS AUDIT DIVISION</div>
+            <div class="brand-title-row">
+              <strong>นครกระจกเงา</strong>
+              <span class="api-badge" id="api-badge" aria-live="polite">กำลังตรวจสอบระบบ</span>
+            </div>
+          </div>
         </div>
+
+        <nav class="top-actions" aria-label="เครื่องมือหลัก">
+          <button class="nav-btn summary-button" id="open-summary" type="button" title="สรุปเรื่องราว"
+            aria-label="สรุปเรื่องราว">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+              stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" />
+            </svg>
+            <span>สรุปเรื่อง</span>
+          </button>
+
+          <button class="nav-btn guide-button" id="open-guide" type="button" title="คู่มือโลก" aria-label="คู่มือโลก">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+              stroke-linejoin="round" aria-hidden="true">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+            </svg>
+            <span>คู่มือโลก</span>
+          </button>
+
+          <button class="nav-btn settings-button" id="open-settings" type="button" title="ตั้งค่า API"
+            aria-label="ตั้งค่า API">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+              stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="3" />
+              <path
+                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+            </svg>
+            <span>ตั้งค่า API</span>
+          </button>
+
+          <button class="nav-btn new-game" id="new-game" type="button" title="เริ่มเรื่องใหม่"
+            aria-label="เริ่มเรื่องใหม่">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+              stroke-linejoin="round" aria-hidden="true">
+              <polyline points="23 4 23 10 17 10" />
+              <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+            </svg>
+            <span>เริ่มใหม่</span>
+          </button>
+        </nav>
       </div>
-      <div class="top-actions"><button class="summary-button" id="open-summary" type="button" title="สรุปเรื่อง"
-          aria-label="สรุปเรื่อง">▣ <span>สรุปเรื่อง</span></button><button class="guide-button" id="open-guide"
-          type="button" title="คู่มือโลก" aria-label="คู่มือโลก">▤ <span>คู่มือโลก</span></button><button
-          class="settings-button" id="open-settings" type="button" title="ตั้งค่า API">⚙ <span>ตั้งค่า
-            API</span></button><button class="new-game" id="new-game" type="button" title="เริ่มเรื่องใหม่">↻
-          <span>เริ่มใหม่</span></button></div>
     </header>
 
-    <section class="intro" id="intro">
-      <div class="moon">☾</div>
-      <p class="eyebrow">TRUTH IS THE MOST DANGEROUS THING</p>
-      <h1>นครกระจกเงา<br><em>The Glass Spire</em></h1>
-      <p class="intro-copy">ใน Decapolis ความลับมีเงาเป็นของตัวเอง<br class="desktop-only">
-        และความจริงอาจพรากตัวตนของคุณไป</p>
-      <button id="begin" class="begin-button" type="button">เริ่มสืบคดี <span>→</span></button>
-      <div class="rule"><span></span> Fragment Auditor · เขต 7 <span></span></div>
-    </section>
+    <main class="workspace">
+      <!-- Intro Dossier Briefing Screen -->
+      <section class="intro" id="intro">
+        <div class="intro-visual" id="intro-visual" role="button" tabindex="0" aria-label="ดูภาพฉากเปิดขนาดเต็ม">
+          <span class="hud-corner tl" aria-hidden="true"></span>
+          <span class="hud-corner tr" aria-hidden="true"></span>
+          <span class="hud-corner bl" aria-hidden="true"></span>
+          <span class="hud-corner br" aria-hidden="true"></span>
+          <div class="visual-telemetry">
+            <span class="rec-dot">CAM-07 // LIVE</span>
+            <span>SECTOR 07</span>
+          </div>
+          <img src="/images/opening-scene.jpg"
+            alt="Fragment Auditor ในสำนักงานเขต 7 มองออกไปยังนครแก้ว ขณะสารวัตรทหารยืนอยู่หน้าประตู">
+          <div class="visual-caption">
+            <strong>EVIDENCE PHOTO · CASE #1188</strong>
+            <span>สถานีรถไฟลอยฟ้า เขต 7 · ก่อนการตรวจค้นจะเริ่มขึ้น</span>
+          </div>
+        </div>
 
-    <section class="game hidden" id="game">
-      <div class="scene-head">
-        <div>
-          <p class="eyebrow">CHAPTER I · DECAPOLIS / DISTRICT 7</p>
-          <h2>เงาที่แตกสลาย</h2>
-        </div><span class="location-icon">⌖</span>
-      </div>
-      <figure class="opening-art"><img src="/images/opening-scene.jpg"
-          alt="Fragment Auditor ในสำนักงานเขต 7 มองออกไปยังนครแก้ว ขณะสารวัตรทหารยืนอยู่หน้าประตู">
-        <figcaption>สถานีรถไฟลอยฟ้า เขต 7 · ก่อนการตรวจค้นจะเริ่มขึ้น</figcaption>
-      </figure>
-      <div class="character-panels">
-        <section class="state-card" aria-labelledby="inventory-title">
-          <div class="state-card-head"><span class="state-icon">▤</span>
-            <h3 id="inventory-title">กระเป๋า</h3>
-          </div>
-          <div class="state-content" id="inventory-state">
-            <p class="state-empty">รอ Game Master ระบุสิ่งของ</p>
-          </div>
-        </section>
-        <section class="state-card" aria-labelledby="status-title">
-          <div class="state-card-head"><span class="state-icon">◈</span>
-            <h3 id="status-title">สถานะตัวละคร</h3>
-          </div>
-          <div class="state-content" id="character-state">
-            <p class="state-empty">รอ Game Master ระบุสถานะ</p>
-          </div>
-        </section>
-      </div>
-      <div class="story" id="story" aria-live="polite"></div>
-      <div class="thinking hidden" id="thinking"><span></span><span></span><span></span><small>Game Master
-          กำลังเขียนเรื่องราว</small></div>
-    </section>
+        <div class="intro-dossier">
+          <div class="dossier-tag">CASE FILE #1188-FA · CLASSIFIED BRIEFING</div>
+          <p class="eyebrow">TRUTH IS THE MOST DANGEROUS THING</p>
+          <h1>นครกระจกเงา <em>The Glass Spire</em></h1>
+          <p class="intro-copy">
+            ในมหานครเดคาโพลิส ความลับมีเงาเป็นของตัวเอง และทุกคำโกหกจะกัดกินตัวตนของคุณจนโปร่งแสง
+            เปิดแฟ้มคดีฆาตกรรมในห้องปิดตาย ก่อนสารวัตรทหารจะพังประตูเข้ามา
+          </p>
 
-    <form class="composer hidden" id="composer">
-      <label for="action">การกระทำของคุณ</label>
-      <div class="input-row"><textarea id="action" rows="1" maxlength="500" placeholder="พิมพ์สิ่งที่คุณอยากทำ…"
-          required></textarea><button id="send" type="submit" aria-label="ส่ง">↑</button></div>
-      <div class="composer-foot"><span>Enter เพื่อส่ง · Shift + Enter ขึ้นบรรทัดใหม่</span><span id="turn-count">เทิร์น
-          0</span></div>
-    </form>
-    <footer><span>✦</span> GAME MASTER POWERED BY GROQ</footer>
-  </main>
+          <div class="briefing-grid">
+            <div class="briefing-item">
+              <span class="briefing-label">บทบาทของคุณ</span>
+              <span class="briefing-value">Fragment Auditor</span>
+            </div>
+            <div class="briefing-item">
+              <span class="briefing-label">คดีตรงหน้า</span>
+              <span class="briefing-value">ฆาตกรรมห้องปิดตาย</span>
+            </div>
+            <div class="briefing-item">
+              <span class="briefing-label">ระบบการเล่น</span>
+              <span class="briefing-value">AI Game Master ภาษาไทย</span>
+            </div>
+          </div>
+
+          <div class="intro-cta-row">
+            <button id="begin" class="begin-button" type="button">
+              <span>เปิดแฟ้มและเริ่มสืบคดี</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </button>
+
+            <button id="intro-guide-btn" class="secondary-button" type="button">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              <span>อ่านคู่มือก่อนเล่น</span>
+            </button>
+          </div>
+
+          <div class="rule"><span></span> FRAGMENT AUDITOR · DISTRICT 07 <span></span></div>
+        </div>
+      </section>
+
+      <!-- Active Two-Column Investigative Console -->
+      <section class="game hidden" id="game">
+        <aside class="dossier-sidebar" aria-label="แผงข้อมูลสืบสวน">
+          <figure class="opening-art">
+            <div class="art-frame" id="open-lightbox" role="button" tabindex="0" aria-label="ขยายภาพฉากเปิด">
+              <img src="/images/opening-scene.jpg"
+                alt="Fragment Auditor ในสำนักงานเขต 7 มองออกไปยังนครแก้ว ขณะสารวัตรทหารยืนอยู่หน้าประตู">
+              <span class="art-zoom-badge">ขยายภาพ ⤢</span>
+            </div>
+            <figcaption>
+              <span class="caption-loc">LOC // SKYTRAIN TERMINUS · DIST 07</span>
+              <span class="caption-sub">สำนักงานตรวจสอบเศษเสี้ยว เขต 7</span>
+            </figcaption>
+          </figure>
+
+          <section class="state-card objective-card" aria-labelledby="objective-title">
+            <div class="state-card-head">
+              <div class="state-card-title">
+                <span class="state-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                </span>
+                <h3 id="objective-title">เป้าหมายปัจจุบัน</h3>
+              </div>
+              <span class="state-tag-mono">ACTIVE</span>
+            </div>
+            <p class="live-objective-text" id="live-objective">รอรับสถานการณ์เริ่มต้นจาก Game Master…</p>
+          </section>
+
+          <section class="state-card" aria-labelledby="status-title">
+            <div class="state-card-head">
+              <div class="state-card-title">
+                <span class="state-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                  </svg>
+                </span>
+                <h3 id="status-title">สถานะตัวละคร</h3>
+              </div>
+              <span class="state-tag-mono">TELEMETRY</span>
+            </div>
+            <div class="state-content" id="character-state">
+              <p class="state-empty">รอ Game Master ระบุสถานะ</p>
+            </div>
+          </section>
+
+          <section class="state-card" aria-labelledby="inventory-title">
+            <div class="state-card-head">
+              <div class="state-card-title">
+                <span class="state-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                  </svg>
+                </span>
+                <h3 id="inventory-title">กระเป๋าและหลักฐาน</h3>
+              </div>
+              <span class="state-tag-mono">ITEMS</span>
+            </div>
+            <div class="state-content" id="inventory-state">
+              <p class="state-empty">รอ Game Master ระบุสิ่งของ</p>
+            </div>
+          </section>
+        </aside>
+
+        <div class="narrative-main">
+          <div class="scene-head">
+            <div>
+              <p class="eyebrow">CHAPTER I · DECAPOLIS / DISTRICT 7</p>
+              <h2>เงาที่แตกสลาย</h2>
+            </div>
+            <span class="turn-pill" id="turn-count">เทิร์น 0</span>
+          </div>
+
+          <div class="story" id="story" aria-live="polite"></div>
+
+          <div class="thinking hidden" id="thinking">
+            <div class="thinking-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+            <small>GAME MASTER กำลังประมวลผลเหตุการณ์…</small>
+          </div>
+
+          <form class="composer hidden" id="composer">
+            <div class="quick-chips" aria-label="แนวทางคำสั่งด่วน">
+              <button type="button" class="quick-chip"
+                data-prompt="ฉันรีบกวาดสายตาตรวจดูแฟ้มคดีฆาตกรรมบนโต๊ะอย่างรวดเร็ว ก่อนหันไปรับมือสารวัตรทหาร">ตรวจแฟ้มคดีบนโต๊ะ</button>
+              <button type="button" class="quick-chip"
+                data-prompt="ฉันเปิดประตูแง้มออกเล็กน้อยแล้วถามสารวัตรทหารด้วยน้ำเสียงสงบว่ามีหมายตรวจค้นหรือไม่">แง้มประตูคุยกับสารวัตร</button>
+              <button type="button" class="quick-chip"
+                data-prompt="ฉันเพ่งสมาธิตรวจสอบร่องรอยเงาสะท้อนผิดปกติภายในห้องทำงาน">สังเกตเงาสะท้อนรอบห้อง</button>
+            </div>
+
+            <div class="composer-box">
+              <label for="action">Auditor Command // พิมพ์การกระทำของคุณ</label>
+              <div class="input-row">
+                <textarea id="action" rows="1" maxlength="500"
+                  placeholder="พิมพ์สิ่งที่คุณอยากทำ พูด หรือตรวจสอบได้อย่างอิสระ…" required></textarea>
+                <button id="send" type="submit" aria-label="ส่งการกระทำ">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                    stroke-linejoin="round" aria-hidden="true">
+                    <line x1="12" y1="19" x2="12" y2="5" />
+                    <polyline points="5 12 12 5 19 12" />
+                  </svg>
+                </button>
+              </div>
+              <div class="composer-foot">
+                <span>Enter เพื่อส่ง · Shift + Enter ขึ้นบรรทัดใหม่</span>
+                <span id="char-count">0 / 500</span>
+              </div>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer><span>✦</span> DECAPOLIS ARCHIVE SYSTEM · GAME MASTER POWERED BY GROQ</footer>
+  </div>
+
+  <!-- Settings Modal -->
   <div class="modal-backdrop hidden" id="settings-modal" role="presentation">
     <section class="settings-card" role="dialog" aria-modal="true" aria-labelledby="settings-title">
       <button class="modal-close" id="close-settings" type="button" aria-label="ปิด">×</button>
-      <p class="eyebrow">CONNECTION</p>
+      <p class="eyebrow">SYSTEM CONNECTION</p>
       <h2 id="settings-title">ตั้งค่า Groq API</h2>
       <p class="settings-copy">ใส่ API key เพื่อให้ Game Master เริ่มเล่าเรื่อง คีย์จะบันทึกไว้ในไฟล์ .env
         ที่ไม่ถูกรวมใน Git</p>
       <form id="settings-form">
         <label for="api-key">Groq API key</label>
-        <div class="key-input"><input id="api-key" type="password" autocomplete="off" placeholder="gsk_…"
-            required><button id="toggle-key" type="button">แสดง</button></div>
+        <div class="key-input">
+          <input id="api-key" type="password" autocomplete="off" placeholder="gsk_…" required>
+          <button id="toggle-key" type="button">แสดง</button>
+        </div>
         <div class="settings-status" id="settings-status" aria-live="polite"></div>
         <button class="save-key" id="save-key" type="submit">บันทึกคีย์</button>
       </form>
       <div class="model-picker">
-        <div class="model-heading"><label for="model-select">โมเดลสำหรับ Game Master</label><button id="refresh-models"
-            type="button">↻ ดึงรายการ</button></div>
+        <div class="model-heading">
+          <label for="model-select">โมเดลสำหรับ Game Master</label>
+          <button id="refresh-models" type="button">↻ ดึงรายการ</button>
+        </div>
         <select id="model-select" disabled>
           <option value="">ใส่ API key แล้วดึงรายการโมเดล</option>
         </select>
@@ -103,6 +296,8 @@
       </div>
     </section>
   </div>
+
+  <!-- Field Guide Modal -->
   <div class="modal-backdrop hidden" id="guide-modal" role="presentation">
     <section class="guide-card" role="dialog" aria-modal="true" aria-labelledby="guide-title">
       <button class="modal-close" id="close-guide" type="button" aria-label="ปิด">×</button>
@@ -114,7 +309,8 @@
           <h3>โลกที่เหลืออยู่</h3>
           <p>มนุษยชาติอาศัยอยู่ในมหานครเดคาโพลิส นครแก้วขนาดมหึมากลางโลกที่ถูกหมอกพิษและเถ้าถ่านปกคลุม เมืองพึ่งพา
             <strong>กระจกแห่งจิตสำนึก (The Psyche-Glass)</strong>
-            ผลึกโบราณที่ดึงความลับและด้านมืดของผู้คนออกมาเป็นเงาที่มีตัวตน</p>
+            ผลึกโบราณที่ดึงความลับและด้านมืดของผู้คนออกมาเป็นเงาที่มีตัวตน
+          </p>
         </section>
         <section class="guide-section">
           <h3>หน้าที่ของคุณ</h3>
@@ -148,6 +344,8 @@
       </div>
     </section>
   </div>
+
+  <!-- Case Summary Modal -->
   <div class="modal-backdrop hidden" id="summary-modal" role="presentation">
     <section class="guide-card summary-card" role="dialog" aria-modal="true" aria-labelledby="summary-title">
       <button class="modal-close" id="close-summary" type="button" aria-label="ปิด">×</button>
@@ -172,6 +370,16 @@
       </div>
     </section>
   </div>
+
+  <!-- Image Lightbox Modal -->
+  <div class="modal-backdrop lightbox-backdrop hidden" id="lightbox-modal" role="presentation">
+    <div class="lightbox-frame" role="dialog" aria-modal="true" aria-label="ภาพฉากเปิดขนาดเต็ม">
+      <button class="modal-close" id="close-lightbox" type="button" aria-label="ปิด">×</button>
+      <img src="/images/opening-scene.jpg"
+        alt="Fragment Auditor ในสำนักงานเขต 7 มองออกไปยังนครแก้ว ขณะสารวัตรทหารยืนอยู่หน้าประตู">
+    </div>
+  </div>
+
   <script src="/app.js" defer></script>
 </body>
 

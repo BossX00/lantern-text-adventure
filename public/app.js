@@ -1,4 +1,6 @@
 const $ = (selector) => document.querySelector(selector);
+const $$ = (selector) => document.querySelectorAll(selector);
+
 const intro = $('#intro');
 const game = $('#game');
 const story = $('#story');
@@ -6,34 +8,116 @@ const composer = $('#composer');
 const action = $('#action');
 const send = $('#send');
 const thinking = $('#thinking');
-const messages = [];
+const charCount = $('#char-count');
+const apiBadge = $('#api-badge');
+const liveObjective = $('#live-objective');
+
 const settingsModal = $('#settings-modal');
 const guideModal = $('#guide-modal');
 const summaryModal = $('#summary-modal');
+const lightboxModal = $('#lightbox-modal');
+
+const messages = [];
 let gameSummary = null;
 let summaryTurn = 0;
 let gameOver = false;
 
-$('#open-guide').addEventListener('click', () => guideModal.classList.remove('hidden'));
-$('#close-guide').addEventListener('click', () => guideModal.classList.add('hidden'));
-guideModal.addEventListener('click', (event) => {
-  if (event.target === guideModal) guideModal.classList.add('hidden');
-});
+function openModal(modal) {
+  if (modal) modal.classList.remove('hidden');
+}
+
+function closeModal(modal) {
+  if (modal) modal.classList.add('hidden');
+}
+
+function bindModal(modal, openTrigger, closeTrigger) {
+  if (openTrigger) {
+    openTrigger.addEventListener('click', () => openModal(modal));
+  }
+  if (closeTrigger) {
+    closeTrigger.addEventListener('click', () => closeModal(modal));
+  }
+  if (modal) {
+    modal.addEventListener('click', (event) => {
+      if (event.target === modal) closeModal(modal);
+    });
+  }
+}
+
+bindModal(guideModal, $('#open-guide'), $('#close-guide'));
+bindModal(guideModal, $('#intro-guide-btn'), null);
+bindModal(lightboxModal, $('#open-lightbox'), $('#close-lightbox'));
+
+const introVisual = $('#intro-visual');
+if (introVisual) {
+  introVisual.addEventListener('click', () => openModal(lightboxModal));
+  introVisual.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      openModal(lightboxModal);
+    }
+  });
+}
+
+const openLightbox = $('#open-lightbox');
+if (openLightbox) {
+  openLightbox.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      openModal(lightboxModal);
+    }
+  });
+}
+
 $('#open-summary').addEventListener('click', () => {
-  summaryModal.classList.remove('hidden');
+  openModal(summaryModal);
   $('#open-summary').classList.remove('has-new-summary');
 });
-$('#close-summary').addEventListener('click', () => summaryModal.classList.add('hidden'));
-summaryModal.addEventListener('click', (event) => {
-  if (event.target === summaryModal) summaryModal.classList.add('hidden');
+bindModal(summaryModal, null, $('#close-summary'));
+
+$('#open-settings').addEventListener('click', () => {
+  openModal(settingsModal);
+  $('#api-key').focus();
+  refreshSettingsStatus();
 });
+bindModal(settingsModal, null, $('#close-settings'));
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') {
+    closeModal(settingsModal);
+    closeModal(guideModal);
+    closeModal(summaryModal);
+    closeModal(lightboxModal);
+  }
+});
+
+function updateApiBadge(configured, modelName) {
+  if (!apiBadge) return;
+  apiBadge.classList.remove('is-ready', 'is-unconfigured');
+  if (configured) {
+    apiBadge.classList.add('is-ready');
+    apiBadge.textContent = modelName ? `API พร้อมใช้งาน` : 'พร้อมใช้งาน';
+    apiBadge.title = modelName ? `โมเดลปัจจุบัน: ${modelName}` : 'เชื่อมต่อ Groq API แล้ว';
+  } else {
+    apiBadge.classList.add('is-unconfigured');
+    apiBadge.textContent = 'ยังไม่ได้ตั้งค่า API';
+    apiBadge.title = 'กดตั้งค่า API เพื่อใส่ Groq API key';
+  }
+}
 
 function renderSummary(summary) {
   if (!summary || typeof summary !== 'object') return;
   gameSummary = summary;
   summaryTurn += 1;
+  const objectiveText = typeof summary.current_objective === 'string' && summary.current_objective.trim()
+    ? summary.current_objective
+    : 'AI ยังไม่ได้ระบุเป้าหมายปัจจุบัน';
   $('#summary-story').textContent = typeof summary.story_so_far === 'string' ? summary.story_so_far : 'AI ยังไม่ได้สรุปเหตุการณ์';
-  $('#summary-objective').textContent = typeof summary.current_objective === 'string' ? summary.current_objective : 'AI ยังไม่ได้ระบุเป้าหมายปัจจุบัน';
+  $('#summary-objective').textContent = objectiveText;
+  if (liveObjective) {
+    liveObjective.textContent = objectiveText;
+  }
+
   const changes = $('#summary-changes');
   changes.replaceChildren();
   const items = Array.isArray(summary.latest_changes) ? summary.latest_changes : [];
@@ -58,9 +142,11 @@ async function refreshSettingsStatus() {
     const response = await fetch('/api/settings');
     const data = await response.json();
     status.textContent = data.configured ? `พร้อมใช้งาน · โมเดล ${data.model}` : 'ยังไม่ได้ตั้งค่า API key';
+    updateApiBadge(Boolean(data.configured), data.model);
     if (data.configured) loadModels();
   } catch {
     status.textContent = 'ตรวจสอบสถานะ API ไม่สำเร็จ';
+    updateApiBadge(false);
   }
 }
 
@@ -98,20 +184,12 @@ async function loadModels() {
   }
 }
 
-$('#open-settings').addEventListener('click', () => {
-  settingsModal.classList.remove('hidden');
-  $('#api-key').focus();
-  refreshSettingsStatus();
-});
-$('#close-settings').addEventListener('click', () => settingsModal.classList.add('hidden'));
-settingsModal.addEventListener('click', (event) => {
-  if (event.target === settingsModal) settingsModal.classList.add('hidden');
-});
 $('#toggle-key').addEventListener('click', (event) => {
   const input = $('#api-key');
   input.type = input.type === 'password' ? 'text' : 'password';
   event.currentTarget.textContent = input.type === 'password' ? 'แสดง' : 'ซ่อน';
 });
+
 $('#settings-form').addEventListener('submit', async (event) => {
   event.preventDefault();
   const button = $('#save-key');
@@ -128,8 +206,9 @@ $('#settings-form').addEventListener('submit', async (event) => {
     if (!response.ok) throw new Error(data.error || 'บันทึกคีย์ไม่สำเร็จ');
     $('#api-key').value = '';
     status.textContent = 'บันทึกแล้ว พร้อมเริ่มเล่น';
+    updateApiBadge(true);
     loadModels();
-    setTimeout(() => settingsModal.classList.add('hidden'), 700);
+    setTimeout(() => closeModal(settingsModal), 700);
   } catch (error) {
     status.textContent = error.message;
     status.classList.add('error');
@@ -137,6 +216,7 @@ $('#settings-form').addEventListener('submit', async (event) => {
     button.disabled = false;
   }
 });
+
 $('#refresh-models').addEventListener('click', loadModels);
 $('#save-model').addEventListener('click', async () => {
   const button = $('#save-model');
@@ -153,6 +233,7 @@ $('#save-model').addEventListener('click', async () => {
     if (!response.ok) throw new Error(data.error || 'บันทึกโมเดลไม่สำเร็จ');
     status.textContent = `กำลังใช้ ${data.model}`;
     $('#settings-status').textContent = `พร้อมใช้งาน · โมเดล ${data.model}`;
+    updateApiBadge(true, data.model);
   } catch (error) {
     status.textContent = error.message;
     status.classList.add('error');
@@ -166,9 +247,26 @@ function addEntry(kind, text) {
   entry.className = `entry ${kind}`;
   const label = document.createElement('div');
   label.className = 'entry-label';
-  label.textContent = kind === 'gm' ? 'GAME MASTER' : 'คุณ';
+  const currentTurn = Math.max(1, Math.ceil(messages.length / 2));
+  label.textContent = kind === 'gm'
+    ? `GAME MASTER // บันทึกเหตุการณ์ · เทิร์น ${currentTurn}`
+    : `FRAGMENT AUDITOR // การกระทำของคุณ`;
+
   const body = document.createElement('div');
-  body.textContent = text;
+  body.className = 'entry-body';
+  const paragraphs = String(text || '').split(/\n+/).map((line) => line.trim()).filter(Boolean);
+  if (!paragraphs.length) {
+    const p = document.createElement('p');
+    p.textContent = String(text || '');
+    body.append(p);
+  } else {
+    for (const paragraph of paragraphs) {
+      const p = document.createElement('p');
+      p.textContent = paragraph;
+      body.append(p);
+    }
+  }
+
   entry.append(label, body);
   story.append(entry);
   entry.scrollIntoView({ behavior: 'smooth', block: 'end' });
@@ -192,6 +290,16 @@ function renderList(container, values, emptyText) {
     list.append(item);
   }
   container.append(list);
+}
+
+function getMeterVariant(label, percent) {
+  if (/transparency|ความโปร่งแสง/i.test(label)) {
+    return percent >= 70 ? 'danger' : 'cyan';
+  }
+  if (/shadow|เงาสะท้อน/i.test(label)) {
+    return 'violet';
+  }
+  return 'amber';
 }
 
 function applyGameMasterReply(rawReply) {
@@ -221,14 +329,32 @@ function applyGameMasterReply(rawReply) {
       const list = document.createElement('dl');
       list.className = 'status-list';
       for (const [label, value] of entries) {
+        const valueStr = typeof value === 'string' ? value : JSON.stringify(value);
+        const item = document.createElement('div');
+        item.className = 'status-item';
+
         const row = document.createElement('div');
         row.className = 'status-row';
         const term = document.createElement('dt');
         term.textContent = label;
         const detail = document.createElement('dd');
-        detail.textContent = typeof value === 'string' ? value : JSON.stringify(value);
+        detail.textContent = valueStr;
         row.append(term, detail);
-        list.append(row);
+        item.append(row);
+
+        const percentMatch = valueStr.match(/(\d+(?:\.\d+)?)\s*%/);
+        if (percentMatch) {
+          const percent = Math.min(100, Math.max(0, Number(percentMatch[1])));
+          const track = document.createElement('div');
+          track.className = 'meter-track';
+          const fill = document.createElement('div');
+          fill.className = `meter-fill ${getMeterVariant(label, percent)}`;
+          fill.style.width = `${percent}%`;
+          track.append(fill);
+          item.append(track);
+        }
+
+        list.append(item);
       }
       container.append(list);
     }
@@ -287,19 +413,33 @@ $('#begin').addEventListener('click', () => {
   takeTurn('เริ่มเกมตามฉากเปิดของโลกนี้ บรรยายสถานการณ์ตรงหน้าและรอให้ฉันตัดสินใจ อย่าเปิดเผยความลับเริ่มต้น', { displayPlayer: false, includeInHistory: true });
 });
 
+for (const chip of $$('.quick-chip')) {
+  chip.addEventListener('click', () => {
+    if (action.disabled || gameOver) return;
+    action.value = chip.dataset.prompt || chip.textContent || '';
+    action.style.height = 'auto';
+    action.style.height = `${Math.min(action.scrollHeight, 130)}px`;
+    if (charCount) charCount.textContent = `${action.value.length} / 500`;
+    action.focus();
+  });
+}
+
 composer.addEventListener('submit', (event) => {
   event.preventDefault();
   const text = action.value.trim();
   if (!text || send.disabled || gameOver) return;
   action.value = '';
   action.style.height = 'auto';
+  if (charCount) charCount.textContent = '0 / 500';
   takeTurn(text);
 });
 
 action.addEventListener('input', () => {
   action.style.height = 'auto';
-  action.style.height = `${Math.min(action.scrollHeight, 120)}px`;
+  action.style.height = `${Math.min(action.scrollHeight, 130)}px`;
+  if (charCount) charCount.textContent = `${action.value.length} / 500`;
 });
+
 action.addEventListener('keydown', (event) => {
   if (event.key === 'Enter' && !event.shiftKey) {
     event.preventDefault();
@@ -308,3 +448,5 @@ action.addEventListener('keydown', (event) => {
 });
 
 $('#new-game').addEventListener('click', () => location.reload());
+
+refreshSettingsStatus();
